@@ -1,0 +1,50 @@
+elektrik
+D1|INP|DIG|0|0|1|0|0|AC GIRIS
+D2|OUT|DIG|0|0|1|0|0|HAT DURUM
+A0|INP|ANG|0|0|1024|4|0|DC AKU
+
+
+mqc mp=/kev1/MP3_TEST;
+mqc lv=/kev1/LAVABO;
+ACLTUT
+// şebeke gösterici
+if(D1==0){D2=1;}
+if(D1==1){D2=0;}
+// şebeke elektriği
+if(D1==1 && ACL==0){mqtt:/kev1/ALLDEV=ACL:1;}
+if(D1==1 && ACL==0){mqtt:mp=VR0:MP3>3;ACL=1;}
+if(D1==0 && ACL==1){mqtt:/kev1/ALLDEV=ACL:0;}
+if(D1==0 && ACL==1){mqtt:mp=VR0:MP3>2;ACL=0;mqtt:lv=D1:1;}
+// akü durumu
+if(A0>26 && D1==1){ACL=1;}
+if(A0>26 && D1==0){ACL=0;}
+if(A0>25 && A0<26){mqtt:/kev1/ALLDEV=ACL:2;}
+if(A0>25 && A0<26){mqtt:mp=VR0:MP3>5;}
+if(A0>24 && a0<25){mqtt:/kev1/ALLDEV=ACL:3;}
+if(A0>24 && A0<25){mqtt:mp=VR0:MP3>13;}
+
+
+
+
+
+salon
+D2|INP|HCE|D1|3|400|0|0|Mesafe
+D3|OUT|DIG|0|0|1|1|0|Led1
+D4|OUT|DIG|0|0|1|0|0|Led2
+D6|OUT|DIG|0|0|1|0|0|Led3
+
+
+mqc mp=/kev1/MP3_TEST;
+mqc lv=/kev1/LAVABO;
+//if(D2>4 && D2<30){mqtt:/kev1/ALLDEV=ACL:1;}
+//if(D2>30 && D2<465){mqtt:/kev1/ALLDEV=ACL:0;}
+//                 if(D3==1){mqtt:mp=VR0:MP3>3;d3=1;}
+//                 if(D3==0){mqtt:mp=VR0:MP3>4;d3=0;}
+//
+if(D2>4 && D2<30){mqtt:mp=VR0:MP3>3;d3=1;}
+if(D2>30 && D2<465){mqtt:mp=VR0:MP3>2;d3=0;}
+//
+//        if(D2>30 && D2<465){mqtt:mp=VR0:MP3T>ELGEL;d3=0;}
+//
+//        if(D2>4 && D2<30){mqtt:lv=D1:0;}
+//        if(D2>30 && D2<465){mqtt:lv=D1:1;}
